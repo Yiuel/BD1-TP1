@@ -69,16 +69,11 @@ WHERE departement_id = (SELECT departement_id
 
 -- 7. Trouver le nom des départements ayant le plus grand nombre d’employés. 
 
-/* SELECT nom
+SELECT departements.nom
 FROM departements
-
-
-SELECT nom
-FROM departements;
-
-SELECT COUNT(employes.id), departement_id
-FROM employes
-WHERE MAX(nombre_employes)
-		FROM (SELECT COUNT(id) AS nombre_employes
-			FROM employes
-			GROUP BY departement_id) AS decompte) */
+WHERE departements.id IN (SELECT departement_id
+	FROM  employes
+	GROUP  BY departement_id
+	HAVING COUNT(employes.numero) >= ALL (SELECT COUNT(id) 
+		FROM employes
+		GROUP BY departement_id));
