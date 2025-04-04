@@ -1,4 +1,4 @@
-git s-- SQL - TP 1 (BD Gym)
+-- SQL - TP 1 (BD Gym)
 
 -- NOM : Ugo Lachapelle 0141471
 
@@ -185,9 +185,112 @@ FROM cours
 JOIN entraineurs ON entraineurs.id = cours.fk_entraineur
 GROUP BY entraineurs.id)
 
+-- 24.
+
+UPDATE abonnements
+SET abonnements.prix = 56
+WHERE YEAR(abonnements.date_debut) = 2015 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 58
+WHERE YEAR(abonnements.date_debut) = 2016 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 60
+WHERE YEAR(abonnements.date_debut) = 2017 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 62
+WHERE YEAR(abonnements.date_debut) = 2018 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 64
+WHERE YEAR(abonnements.date_debut) = 2019 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 67
+WHERE YEAR(abonnements.date_debut) = 2020 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 70
+WHERE YEAR(abonnements.date_debut) = 2021 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 73
+WHERE YEAR(abonnements.date_debut) = 2022 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 76
+WHERE YEAR(abonnements.date_debut) = 2023 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 79
+WHERE YEAR(abonnements.date_debut) = 2024 AND abonnements.`type` = 'mensuelle';
+
+UPDATE abonnements
+SET abonnements.prix = 82
+WHERE YEAR(abonnements.date_debut) = 2025 AND abonnements.`type` = 'mensuelle';
         
+-- 25.
 
+UPDATE membres
+SET membres.date_naissance = '2007-03-02'
+WHERE membres.date_naissance = (SELECT membres.date_naissance
+	FROM membres
+	WHERE nom = 'Martel' AND prenom = 'Olivier' AND YEAR(date_naissance) = 2007)
 
+-- 26.
 
+UPDATE entraineurs
+SET entraineurs.nom = 'Drop Database mysql;'
+WHERE entraineurs.prenom = 'Gabrielle' AND entraineurs.nom = 'Nadeau'
 
+-- 27.
 
+DELETE FROM cours
+WHERE cours.id = (SELECT cours.id
+FROM cours
+JOIN entraineurs ON cours.fk_entraineur = entraineurs.id
+WHERE entraineurs.nom = 'Caron' AND entraineurs.prenom = 'Jérôme' AND cours.nom = 'Nutrition Sportive' AND cours.date_entrainement = '2025-03-15')
+
+-- 28.
+
+DELETE FROM reservations
+WHERE reservations.id IN (SELECT reservations.id
+FROM reservations
+INNER JOIN cours ON reservations.fk_cours = cours.id
+INNER JOIN entraineurs ON cours.fk_entraineur = entraineurs.id
+WHERE entraineurs.prenom = 'Jacob' AND entraineurs.nom = 'Leduc');
+
+DELETE FROM cours
+WHERE cours.id IN (SELECT cours.id
+FROM cours
+INNER JOIN entraineurs ON cours.fk_entraineur = entraineurs.id
+WHERE entraineurs.prenom = 'Jacob' AND entraineurs.nom = 'Leduc');
+
+DELETE FROM entraineurs
+WHERE entraineurs.prenom = 'Jacob' AND entraineurs.nom = 'Leduc';
+
+-- 29. 
+
+INSERT entraineurs (entraineurs.nom, entraineurs.prenom, entraineurs.specialite, entraineurs.adresse, entraineurs.telephone, entraineurs.courriel)
+VALUES ('Mélissa','Diallo','Instructeur de CrossFit','200 rue Manx Carignan J0X 7X8 Québec Canada','438-123-8587','medallo@gmail.com')
+
+-- 30. 
+
+INSERT cours (cours.nom, cours.date_entrainement, cours.horaire, cours.fk_entraineur) VALUES 
+('CrossFit Intense','2025-04-07','18:00:00',(SELECT entraineurs.id
+FROM entraineurs
+WHERE entraineurs.nom = 'Diallo' AND entraineurs.prenom = 'Mélissa')),
+('CrossFit Intense','2025-04-08','18:00:00',(SELECT entraineurs.id
+FROM entraineurs
+WHERE entraineurs.nom = 'Diallo' AND entraineurs.prenom = 'Mélissa')),
+('CrossFit Intense','2025-04-09','18:00:00',(SELECT entraineurs.id
+FROM entraineurs
+WHERE entraineurs.nom = 'Diallo' AND entraineurs.prenom = 'Mélissa')),
+('CrossFit Intense','2025-04-10','18:00:00',(SELECT entraineurs.id
+FROM entraineurs
+WHERE entraineurs.nom = 'Diallo' AND entraineurs.prenom = 'Mélissa')),
+('CrossFit Intense','2025-04-11','18:00:00',(SELECT entraineurs.id
+FROM entraineurs
+WHERE entraineurs.nom = 'Diallo' AND entraineurs.prenom = 'Mélissa'));
