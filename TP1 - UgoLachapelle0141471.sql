@@ -1,4 +1,4 @@
--- SQL - TP 1 (BD Gym)
+git s-- SQL - TP 1 (BD Gym)
 
 -- NOM : Ugo Lachapelle 0141471
 
@@ -88,7 +88,7 @@ WHERE reservations.fk_cours IS NULL
 SELECT membres.nom, membres.prenom
 FROM membres
 JOIN abonnements ON abonnements.fk_membre = membres.id
-WHERE abonnements.date_fin >= '2025-03-15'
+WHERE abonnements.date_fin >= '2025-03-15' AND membres.adresse LIKE '%Chambly%'
 
 -- 14.
 
