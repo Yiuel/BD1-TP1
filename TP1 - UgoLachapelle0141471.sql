@@ -39,7 +39,12 @@ GROUP BY annee
 
 -- 7.
 
-???? Pas clair.
+SELECT *
+FROM membres
+WHERE CONCAT(nom, prenom) IN (SELECT CONCAT(nom, prenom) AS nomcomplet
+	FROM membres
+	GROUP BY nomcomplet
+	HAVING COUNT(CONCAT(nom, prenom)) > 1)
 
 -- 8. 
 
@@ -87,7 +92,15 @@ WHERE abonnements.date_fin >= '2025-03-15'
 
 -- 14.
 
-??? Pas clair.
+SELECT nom, prenom, minimum, maximum
+FROM (SELECT entraineurs.nom, entraineurs.prenom, MIN(abonnements.date_debut) AS minimum, MAX(abonnements.date_fin) AS maximum
+FROM entraineurs
+INNER JOIN cours ON entraineurs.id = cours.fk_entraineur
+INNER JOIN reservations ON cours.id = reservations.fk_cours
+INNER JOIN membres ON reservations.fk_membre = membres.id
+INNER JOIN abonnements ON membres.id = abonnements.fk_membre
+GROUP BY entraineurs.id) AS tableau
+HAVING DATEDIFF(minimum, maximum) <= MAX(DATEDIFF(minimum,maximum))
 
 -- 15.
 
